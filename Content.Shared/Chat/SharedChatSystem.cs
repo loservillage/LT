@@ -36,7 +36,9 @@ public abstract class SharedChatSystem : EntitySystem
 {
     public const char RadioCommonPrefix = ';';
     public const char RadioChannelPrefix = ':';
-    public const char RadioChannelAltPrefix = '.';
+    /// LT Edit
+    /// public const char RadioChannelAltPrefix = ".";
+    /// LT Edit End
     public const char LocalPrefix = '>';
     public const char ConsolePrefix = '/';
     public const char DeadPrefix = '\\';
@@ -48,6 +50,11 @@ public abstract class SharedChatSystem : EntitySystem
     public const char WhisperPrefix = ',';
     public const char CollectiveMindPrefix = '+';
     public const char DefaultChannelKey = 'h';
+
+    ///LT Edit
+    public const char SubtlePrefix = '-';
+    public const char SubtleOOCPrefix = '.';
+    ///LT Edit End
 
     [ValidatePrototypeId<RadioChannelPrototype>]
     public const string CommonChannel = "Common";
@@ -144,7 +151,11 @@ public abstract class SharedChatSystem : EntitySystem
         if (input.Length <= 2)
             return;
 
-        if (!(input.StartsWith(RadioChannelPrefix) || input.StartsWith(RadioChannelAltPrefix)))
+        if (!(input.StartsWith(RadioChannelPrefix) 
+        ///LT Edit
+        /// || input.StartsWith(RadioChannelAltPrefix)
+        ///LT Edit End
+        ))
             return;
 
         if (!_keyCodes.TryGetValue(char.ToLower(input[1]), out _))
@@ -184,7 +195,11 @@ public abstract class SharedChatSystem : EntitySystem
             return true;
         }
 
-        if (!(input.StartsWith(RadioChannelPrefix) || input.StartsWith(RadioChannelAltPrefix)))
+        if (!(input.StartsWith(RadioChannelPrefix) 
+        ///LT Edit
+        //|| input.StartsWith(RadioChannelAltPrefix)
+        ///LT Edit End
+        ))
             return false;
 
         if (input.Length < 2 || char.IsWhiteSpace(input[1]))
@@ -396,6 +411,11 @@ public enum InGameICChatType : byte
     Emote,
     Whisper,
     CollectiveMind
+    ///LT Edit
+    ,
+    Subtle,
+    SubtleOOC
+    ///LT Edit End
 }
 
 /// <summary>

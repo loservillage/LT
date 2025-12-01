@@ -117,7 +117,11 @@ public sealed class ChatUIController : UIController
         {SharedChatSystem.AdminPrefix, ChatSelectChannel.Admin},
         {SharedChatSystem.RadioCommonPrefix, ChatSelectChannel.Radio},
         {SharedChatSystem.DeadPrefix, ChatSelectChannel.Dead},
-        {SharedChatSystem.CollectiveMindPrefix, ChatSelectChannel.CollectiveMind}
+        {SharedChatSystem.CollectiveMindPrefix, ChatSelectChannel.CollectiveMind},
+        ///LT Edit
+        {SharedChatSystem.SubtlePrefix, ChatSelectChannel.Subtle},
+        {SharedChatSystem.SubtleOOCPrefix, ChatSelectChannel.SubtleOOC}
+        ///LT Edit End
     };
 
     public static readonly Dictionary<ChatSelectChannel, char> ChannelPrefixes = new()
@@ -132,6 +136,11 @@ public sealed class ChatUIController : UIController
         {ChatSelectChannel.Radio, SharedChatSystem.RadioCommonPrefix},
         {ChatSelectChannel.Dead, SharedChatSystem.DeadPrefix},
         {ChatSelectChannel.CollectiveMind, SharedChatSystem.CollectiveMindPrefix} // Goobstation - Starlight collective mind port
+        ///LT Edit
+        ,
+        {ChatSelectChannel.Subtle, SharedChatSystem.SubtlePrefix}, // Floofstation
+        {ChatSelectChannel.SubtleOOC, SharedChatSystem.SubtleOOCPrefix} // Den
+        ///LT Edit End
     };
 
     /// <summary>
@@ -569,11 +578,19 @@ public sealed class ChatUIController : UIController
             FilterableChannels |= ChatChannel.Radio;
             FilterableChannels |= ChatChannel.Emotes;
             FilterableChannels |= ChatChannel.Notifications;
-
+            ///LT Edit
+            FilterableChannels |= ChatChannel.Subtle;
+            FilterableChannels |= ChatChannel.Notifications;
+            ///LT Edit End
             // Can only send local / radio / emote when attached to a non-ghost entity.
             // TODO: this logic is iffy (checking if controlling something that's NOT a ghost), is there a better way to check this?
             if (_ghost is not {IsGhost: true})
             {
+                ///LT Edit
+                FilterableChannels |= ChatChannel.SubtleOOC;
+                CanSendChannels |= ChatSelectChannel.Subtle; // Floofstation
+                CanSendChannels |= ChatSelectChannel.SubtleOOC;
+                ///LT Edit End
                 CanSendChannels |= ChatSelectChannel.Local;
                 CanSendChannels |= ChatSelectChannel.Whisper;
                 CanSendChannels |= ChatSelectChannel.Radio;
@@ -586,6 +603,12 @@ public sealed class ChatUIController : UIController
         {
             FilterableChannels |= ChatChannel.Dead;
             CanSendChannels |= ChatSelectChannel.Dead;
+        }
+
+        if (_admin.HasFlag(AdminFlags.Pii) && _ghost is { IsGhost: true })
+        {
+            FilterableChannels |= ChatChannel.Subtle;
+            FilterableChannels |= ChatChannel.SubtleOOC;
         }
 
         // only admins can see / filter asay
