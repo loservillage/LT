@@ -32,6 +32,8 @@ using Content.Server.Preferences.Managers; // Frontier
 using System.Linq;
 using Content.Shared.NameIdentifier; // Frontier
 using Content.Server._EinsteinEngines.Silicon.IPC;
+using Content.Server._LT;
+using Content.Shared._LT;
 using Content.Shared.Radio.Components; // Goobstation
 
 namespace Content.Server.Station.Systems;
@@ -318,6 +320,7 @@ public sealed class StationSpawningSystem : SharedStationSpawningSystem
             {
                 AddComp<DetailExaminableComponent>(entity.Value).Content = profile.FlavorText;
             }
+            AddComp<BellyComponent>(entity.Value).ArrangeGuts(entity.Value,profile);
         }
 
         DoJobSpecials(job, entity.Value);

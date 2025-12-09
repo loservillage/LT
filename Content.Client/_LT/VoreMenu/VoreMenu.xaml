@@ -1,0 +1,26 @@
+<controls:FancyWindow
+        xmlns="https://spacestation14.io"
+        xmlns:controls="clr-namespace:Content.Client.UserInterface.Controls"
+        Title="Vore Menu" MinSize="750 600">
+    <BoxContainer Orientation="Vertical">
+        <BoxContainer Orientation="Vertical" Margin="4" VerticalExpand="True">
+            <BoxContainer VerticalExpand="True" SizeFlagsStretchRatio="4">
+                <ScrollContainer  HorizontalExpand="True" SizeFlagsStretchRatio="1">
+                    <BoxContainer Name="Bellies" Orientation="Vertical">
+                        <Label Text="Something's wrong..."/>
+                    </BoxContainer>
+                </ScrollContainer>
+                <ScrollContainer HorizontalExpand="True" SizeFlagsStretchRatio="4">
+                    <BoxContainer Name="BellyConfig" Orientation="Vertical">
+                        <Label Text="Select a belly from the left to configure!"></Label>
+
+                    </BoxContainer>
+                </ScrollContainer>
+            </BoxContainer>
+            <BoxContainer VerticalExpand="True" SizeFlagsStretchRatio="1">
+                <CheckButton Name="Pred" Text="Be pred"></CheckButton>
+                <CheckButton Name="Prey" Text="Be prey"></CheckButton>
+            </BoxContainer>
+        </BoxContainer>
+    </BoxContainer>
+</controls:FancyWindow>
