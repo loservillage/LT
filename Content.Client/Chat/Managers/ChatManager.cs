@@ -113,7 +113,14 @@ internal sealed class ChatManager : IChatManager
             case ChatSelectChannel.CollectiveMind:
                 _consoleHost.ExecuteCommand($"cmsay \"{CommandParsing.Escape(str)}\"");
                 break;
-
+            ///LT Edit
+            case ChatSelectChannel.Subtle:
+                _consoleHost.ExecuteCommand($"subtle \"{CommandParsing.Escape(str)}\"");
+            break;
+            case ChatSelectChannel.SubtleOOC: 
+                _consoleHost.ExecuteCommand($"subtleooc \"{CommandParsing.Escape(str)}\"");
+            break;
+            ///LT Edit End
             default:
                 throw new ArgumentOutOfRangeException(nameof(channel), channel, null);
         }

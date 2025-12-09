@@ -1,0 +1,1 @@
+verb-categories-devour = Devour

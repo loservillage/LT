@@ -563,6 +563,62 @@ namespace Content.Server.Database.Migrations.Postgres
                     b.ToTable("ban_template", (string)null);
                 });
 
+            modelBuilder.Entity("Content.Server.Database.Bellies", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("integer")
+                        .HasColumnName("bellies_id");
+
+                    NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("Id"));
+
+                    b.Property<string>("DigestDescPred")
+                        .IsRequired()
+                        .HasColumnType("text")
+                        .HasColumnName("digest_desc_pred");
+
+                    b.Property<string>("DigestDescPrey")
+                        .IsRequired()
+                        .HasColumnType("text")
+                        .HasColumnName("digest_desc_prey");
+
+                    b.Property<byte>("DigestMode")
+                        .HasColumnType("smallint")
+                        .HasColumnName("digest_mode");
+
+                    b.Property<string>("ExpellDesc")
+                        .IsRequired()
+                        .HasColumnType("text")
+                        .HasColumnName("expell_desc");
+
+                    b.Property<string>("IngestDesc")
+                        .IsRequired()
+                        .HasColumnType("text")
+                        .HasColumnName("ingest_desc");
+
+                    b.Property<string>("InnerDescription")
+                        .IsRequired()
+                        .HasColumnType("text")
+                        .HasColumnName("inner_description");
+
+                    b.Property<string>("Name")
+                        .IsRequired()
+                        .HasColumnType("text")
+                        .HasColumnName("name");
+
+                    b.Property<int>("ProfileId")
+                        .HasColumnType("integer")
+                        .HasColumnName("profile_id");
+
+                    b.HasKey("Id")
+                        .HasName("PK_bellies");
+
+                    b.HasIndex("ProfileId", "Name")
+                        .IsUnique();
+
+                    b.ToTable("bellies", (string)null);
+                });
+
             modelBuilder.Entity("Content.Server.Database.Blacklist", b =>
                 {
                     b.Property<Guid>("UserId")
@@ -1675,6 +1731,18 @@ namespace Content.Server.Database.Migrations.Postgres
                     b.Navigation("Profile");
                 });
 
+            modelBuilder.Entity("Content.Server.Database.Bellies", b =>
+                {
+                    b.HasOne("Content.Server.Database.Profile", "Profile")
+                        .WithMany("Bellies")
+                        .HasForeignKey("ProfileId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired()
+                        .HasConstraintName("FK_bellies_profile_profile_id");
+
+                    b.Navigation("Profile");
+                });
+
             modelBuilder.Entity("Content.Server.Database.ConnectionLog", b =>
                 {
                     b.HasOne("Content.Server.Database.Server", "Server")
@@ -2086,6 +2154,8 @@ namespace Content.Server.Database.Migrations.Postgres
             modelBuilder.Entity("Content.Server.Database.Profile", b =>
                 {
                     b.Navigation("Antags");
+
+                    b.Navigation("Bellies");
 
                     b.Navigation("Jobs");
 

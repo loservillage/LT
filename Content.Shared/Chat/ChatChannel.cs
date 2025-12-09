@@ -110,11 +110,25 @@ namespace Content.Shared.Chat
         /// </summary>
         Unspecified = 1 << 15,
 
+        ///LT Edit
+        
+        /// <summary>
+        ///     Subtle
+        /// </summary>
+        Subtle = 1 << 16,
+        /// <summary>
+        ///     SubtleOOC
+        /// </summary>
+        SubtleOOC = 1 << 17,
+        ///LT Edit End
         /// <summary>
         ///     Channels considered to be IC.
         /// </summary>
-        IC = Local | Whisper | Radio | Dead | Emotes | Damage | Visual | CollectiveMind | Notifications,
-
+        IC = Local | Whisper | Radio | Dead | Emotes | Damage | Visual | CollectiveMind | Notifications
+        ///LT Edit
+        | Subtle
+        ///LT Edit End 
+        ,
         AdminRelated = Admin | AdminAlert | AdminChat,
     }
 

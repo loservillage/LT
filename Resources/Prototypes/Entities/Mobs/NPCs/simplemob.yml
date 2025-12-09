@@ -113,3 +113,6 @@
   - type: MobPrice
     price: 150
   - type: FloatingVisuals
+  - type: Vore
+    preyCanditate: true
+    predCanditate: false

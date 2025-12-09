@@ -8,6 +8,7 @@ using System.Threading;
 using System.Threading.Tasks;
 using Content.Server.Administration.Logs;
 using Content.Server.Administration.Managers;
+using Content.Shared._LT;
 using Content.Shared.Administration.Logs;
 using Content.Shared.Database;
 using Content.Shared.Ghost.Roles;
@@ -49,6 +50,7 @@ namespace Content.Server.Database
                 .Include(p => p.Profiles).ThenInclude(h => h.Jobs)
                 .Include(p => p.Profiles).ThenInclude(h => h.Antags)
                 .Include(p => p.Profiles).ThenInclude(h => h.Traits)
+                .Include(p => p.Profiles).ThenInclude(h => h.Bellies)
                 .Include(p => p.Profiles)
                     .ThenInclude(h => h.Loadouts)
                     .ThenInclude(l => l.Groups)
@@ -104,6 +106,7 @@ namespace Content.Server.Database
                 .Include(p => p.Loadouts)
                     .ThenInclude(l => l.Groups)
                     .ThenInclude(group => group.Loadouts)
+                .Include(p => p.Bellies)
                 .AsSplitQuery()
                 .SingleOrDefault(h => h.Slot == slot);
 
@@ -251,6 +254,22 @@ namespace Content.Server.Database
             var height = profile.Height <= 0.005f ? 1.0f : profile.Height;
             var width = profile.Width <= 0.005f ? 1.0f : profile.Width;
 
+            List<Belly> tummies = new List<Belly>();
+            var tummiesraw = profile.Bellies;
+            if (tummiesraw.Count == 0)
+            {
+                tummies.Add(new Belly());
+            }
+            else
+            {
+                foreach (var gut in tummiesraw)
+                {
+                    tummies.Add(new Belly(gut.Name,gut.InnerDescription,(BellyDigestMode)gut.DigestMode,gut.IngestDesc,gut.ExpellDesc,gut.DigestDescPred,gut.DigestDescPrey));
+                }
+            }
+
+
+
             return new HumanoidCharacterProfile(
                 profile.CharacterName,
                 profile.FlavorText,
@@ -277,6 +296,7 @@ namespace Content.Server.Database
                 antags.ToHashSet(),
                 traits.ToHashSet(),
                 loadouts,
+                tummies,
                 company);
         }
 
@@ -310,7 +330,22 @@ namespace Content.Server.Database
             profile.Markings = markings;
             profile.Slot = slot;
             profile.PreferenceUnavailable = (DbPreferenceUnavailableMode) humanoid.PreferenceUnavailable;
+
             profile.Company = humanoid.Company;
+
+            profile.Bellies.Clear();
+            profile.Bellies.AddRange(humanoid.Tummies.Select(val =>
+                new Bellies
+                {
+                    DigestMode = (byte)val.Mode,
+                    InnerDescription = val.InnerDescription,
+                    Name = val.Name,
+                    DigestDescPred = val.DigestDescPred,
+                    DigestDescPrey = val.DigestDescPrey,
+                    IngestDesc = val.IngestDesc,
+                    ExpellDesc =  val.ExpellDesc
+
+                }));
 
             profile.Jobs.Clear();
             profile.Jobs.AddRange(
@@ -361,6 +396,7 @@ namespace Content.Server.Database
 
                 profile.Loadouts.Add(dz);
             }
+
 
             return profile;
         }

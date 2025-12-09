@@ -62,6 +62,20 @@ namespace Content.Shared.Chat
         /// </summary>
         Dead = ChatChannel.Dead,
 
+
+        ///LT Edit
+        /// <summary>
+        ///     Subtle
+        /// </summary>
+        Subtle = ChatChannel.Subtle,
+
+        /// <summary>
+        ///     SubtleOOC
+        /// </summary>
+        SubtleOOC = ChatChannel.SubtleOOC,
+        ///LT Edit End
+
+
         /// <summary>
         ///     Admin chat
         /// </summary>

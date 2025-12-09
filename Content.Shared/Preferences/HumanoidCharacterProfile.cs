@@ -47,6 +47,7 @@
 
 using System.Linq;
 using System.Text.RegularExpressions;
+using Content.Shared._LT;
 using Content.Shared._Mono.Company;
 using Content.Shared._NF.Bank;
 using Content.Shared.CCVar;
@@ -190,6 +191,12 @@ namespace Content.Shared.Preferences
         [DataField]
         public string Company { get; private set; } = "None";
 
+        //LT Edit
+        [DataField]
+        public List<Belly> Tummies = new List<Belly>() { new Belly() };
+
+        //LT Edit end
+
         public HumanoidCharacterProfile(
             string name,
             string flavortext,
@@ -205,6 +212,7 @@ namespace Content.Shared.Preferences
             HashSet<ProtoId<AntagPrototype>> antagPreferences,
             HashSet<ProtoId<TraitPrototype>> traitPreferences,
             Dictionary<string, RoleLoadout> loadouts,
+            List<Belly> tummies,
             string company = "None")
         {
             Name = name;
@@ -222,6 +230,7 @@ namespace Content.Shared.Preferences
             _traitPreferences = traitPreferences;
             _loadouts = loadouts;
             Company = company;
+            Tummies = tummies;
         }
 
         /// <summary>Copy constructor but with overridable references (to prevent useless copies)</summary>
@@ -230,9 +239,10 @@ namespace Content.Shared.Preferences
             Dictionary<ProtoId<JobPrototype>, JobPriority> jobPriorities,
             HashSet<ProtoId<AntagPrototype>> antagPreferences,
             HashSet<ProtoId<TraitPrototype>> traitPreferences,
-            Dictionary<string, RoleLoadout> loadouts)
+            Dictionary<string, RoleLoadout> loadouts,
+            List<Belly> tummies)
             : this(other.Name, other.FlavorText, other.Species, other.Age, other.Sex, other.Gender, other.BankBalance, other.Appearance, other.SpawnPriority,
-                jobPriorities, other.PreferenceUnavailable, antagPreferences, traitPreferences, loadouts, other.Company)
+                jobPriorities, other.PreferenceUnavailable, antagPreferences, traitPreferences, loadouts, tummies, other.Company)
         {
         }
 
@@ -252,6 +262,8 @@ namespace Content.Shared.Preferences
                 new HashSet<ProtoId<AntagPrototype>>(other.AntagPreferences),
                 new HashSet<ProtoId<TraitPrototype>>(other.TraitPreferences),
                 new Dictionary<string, RoleLoadout>(other.Loadouts),
+
+                new List<Belly>(other.Tummies),
                 other.Company)
         {
         }

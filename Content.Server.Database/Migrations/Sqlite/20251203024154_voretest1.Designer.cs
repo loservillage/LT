@@ -3,6 +3,7 @@ using System;
 using Content.Server.Database;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -10,9 +11,11 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace Content.Server.Database.Migrations.Sqlite
 {
     [DbContext(typeof(SqliteServerDbContext))]
-    partial class SqliteServerDbContextModelSnapshot : ModelSnapshot
+    [Migration("20251203024154_voretest1")]
+    partial class voretest1
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder.HasAnnotation("ProductVersion", "9.0.1");
@@ -539,29 +542,9 @@ namespace Content.Server.Database.Migrations.Sqlite
                         .HasColumnType("INTEGER")
                         .HasColumnName("bellies_id");
 
-                    b.Property<string>("DigestDescPred")
-                        .IsRequired()
-                        .HasColumnType("TEXT")
-                        .HasColumnName("digest_desc_pred");
-
-                    b.Property<string>("DigestDescPrey")
-                        .IsRequired()
-                        .HasColumnType("TEXT")
-                        .HasColumnName("digest_desc_prey");
-
                     b.Property<byte>("DigestMode")
                         .HasColumnType("INTEGER")
                         .HasColumnName("digest_mode");
-
-                    b.Property<string>("ExpellDesc")
-                        .IsRequired()
-                        .HasColumnType("TEXT")
-                        .HasColumnName("expell_desc");
-
-                    b.Property<string>("IngestDesc")
-                        .IsRequired()
-                        .HasColumnType("TEXT")
-                        .HasColumnName("ingest_desc");
 
                     b.Property<string>("InnerDescription")
                         .IsRequired()
@@ -580,7 +563,7 @@ namespace Content.Server.Database.Migrations.Sqlite
                     b.HasKey("Id")
                         .HasName("PK_bellies");
 
-                    b.HasIndex("ProfileId", "Name")
+                    b.HasIndex("ProfileId", "Name", "InnerDescription", "DigestMode")
                         .IsUnique();
 
                     b.ToTable("bellies", (string)null);

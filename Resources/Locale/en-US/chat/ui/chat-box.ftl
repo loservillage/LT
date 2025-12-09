@@ -33,3 +33,9 @@ hud-chatbox-channel-CollectiveMind = Collective Mind
 hud-chatbox-channel-Visual = Actions
 hud-chatbox-channel-Damage = Damage
 hud-chatbox-channel-Unspecified = Unspecified
+
+#LT Edit
+hud-chatbox-select-channel-Subtle = Subtle
+
+hud-chatbox-channel-Subtle = Subtle
+#LT Edit End

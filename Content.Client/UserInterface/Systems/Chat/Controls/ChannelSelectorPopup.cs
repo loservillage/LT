@@ -16,9 +16,14 @@ public sealed class ChannelSelectorPopup : Popup
         ChatSelectChannel.LOOC,
         ChatSelectChannel.OOC,
         ChatSelectChannel.Dead,
-        ChatSelectChannel.Admin
+        ChatSelectChannel.Admin,
         // NOTE: Console is not in there and it can never be permanently selected.
         // You can, however, still submit commands as console by prefixing with /.
+
+        ///LT Edit
+        ChatSelectChannel.Subtle,
+        ChatSelectChannel.SubtleOOC 
+        ///LT Edit End
     };
 
     private readonly BoxContainer _channelSelectorHBox;

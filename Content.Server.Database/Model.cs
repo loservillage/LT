@@ -7,6 +7,7 @@ using System.Diagnostics.CodeAnalysis;
 using System.Linq;
 using System.Net;
 using System.Text.Json;
+using Content.Shared._LT;
 using Content.Shared.Database;
 using Microsoft.EntityFrameworkCore;
 using NpgsqlTypes;
@@ -46,11 +47,16 @@ namespace Content.Server.Database
         public DbSet<RoleWhitelist> RoleWhitelists { get; set; } = null!;
         public DbSet<BanTemplate> BanTemplate { get; set; } = null!;
         public DbSet<IPIntelCache> IPIntelCache { get; set; } = null!;
+        public DbSet<Bellies> Bellies { get; set; } = null!;
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             modelBuilder.Entity<Preference>()
                 .HasIndex(p => p.UserId)
+                .IsUnique();
+
+            modelBuilder.Entity<Bellies>()
+                .HasIndex(b => new {b.ProfileId, b.Name})
                 .IsUnique();
 
             modelBuilder.Entity<Profile>()
@@ -424,11 +430,13 @@ namespace Content.Server.Database
         public List<ProfileRoleLoadout> Loadouts { get; } = new();
 
         [Column("pref_unavailable")] public DbPreferenceUnavailableMode PreferenceUnavailable { get; set; }
-        
+
         public string Company { get; set; } = "None";
 
         public int PreferenceId { get; set; }
         public Preference Preference { get; set; } = null!;
+
+        public List<Bellies> Bellies { get; set; } = new();
     }
 
     public class Job
@@ -1335,5 +1343,19 @@ namespace Content.Server.Database
         /// The score IPIntel returned
         /// </summary>
         public float Score { get; set; }
+    }
+
+    public class Bellies
+    {
+        public int Id { get; set; }
+        public Profile Profile { get; set; } = null!;
+        public int ProfileId { get; set; }
+        public required string Name { get; set; }
+        public required string InnerDescription { get; set; }
+        public required byte DigestMode { get; set; }
+        public required string IngestDesc { get; set; }
+        public required string ExpellDesc { get; set; }
+        public required string DigestDescPred  {get;set;}
+        public required string DigestDescPrey { get; set; }
     }
 }
